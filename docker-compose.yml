@@ -1,0 +1,50 @@
+version: '3'
+services:
+  # frontend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-frontend-dev
+  #   container_name: shivani-porfolio-frontend-dev
+  #   command: npm start
+  #   ports:
+  #     - "7080:7080"  # Expose 8080 on localhost to get hot reloading to work. let it be for now
+  #   volumes:
+  #     - ./frontend:/home/app/frontend
+  #     # - /home/app/frontend/node_modules     # copies folder in IMAGE and binds it to container
+  #   depends_on:
+  #     - directus
+  # mysql:
+  #   image: mysql:5.5
+  #   container_name: my-porfolio-mysql
+  #   # restart: always
+  #   env_file:
+  #     # TODO
+  #     - ./config/mysql.env
+  #   ports:
+  #     - "8886:3306"
+  #   volumes:
+  #     - ./mysql/.data:/var/lib/mysql
+  directus:
+    image: getdirectus/directus:6.4
+    container_name: shivani-porfolio-directus
+    ports:
+     - "7888:8080"
+    # restart: always
+    volumes:
+      - ./directus/.data:/var/www/html/storage
+      - ./directus/config/configuration-dev.stub.php:/var/www/html/api/core/Directus/Util/Installation/stubs/configuration.stub
+    env_file:
+      # TODO
+      - ./config/api.env
+    environment:
+      - MYSQL_PORT_3306_TCP_ADDR=mysql
+      - MYSQL_PORT_3306_TCP_PORT=3306
+    networks:
+      - dockernet
+
+networks:
+  dockernet:
+    external: true
+  # host:
+  #   external: true
+

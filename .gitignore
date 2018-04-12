@@ -1,0 +1,4 @@
+frontend
+mysql/.data
+directus/.data
+config/*.env
