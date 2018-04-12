@@ -1,4 +1,4 @@
 frontend
 mysql/.data
-directus/.data
+#directus/.data
 config/*.env
